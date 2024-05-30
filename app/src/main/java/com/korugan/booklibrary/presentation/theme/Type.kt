@@ -1,4 +1,4 @@
-package com.korugan.booklibrary.ui.theme
+package com.korugan.booklibrary.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

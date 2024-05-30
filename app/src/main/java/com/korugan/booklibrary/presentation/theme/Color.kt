@@ -1,4 +1,4 @@
-package com.korugan.booklibrary.ui.theme
+package com.korugan.booklibrary.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -21,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -38,6 +40,9 @@ import com.korugan.booklibrary.presentation.theme.Purple
 
 @Composable
 fun SignUpScreen(navController: NavController) {
+    val regUsername = remember {mutableStateOf("")}
+    val regEmail = remember {mutableStateOf("")}
+    val regPassword = remember {mutableStateOf("")}
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,25 +57,25 @@ fun SignUpScreen(navController: NavController) {
             Column {
                 Text(text = "Sign Up", style = TextStyle(color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.W500))
                 OutlinedTextField(
-                    value = "", onValueChange = {}, modifier = Modifier
-                        .height(60.dp)
+                    value = regUsername.value, onValueChange = {regUsername.value=it}, modifier = Modifier
                         .fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Username", color = Color.White) },
                     trailingIcon = { Icon(imageVector = Icons.Outlined.Person, contentDescription = "", tint = Color.White) }
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
-                    value = "", onValueChange = {}, modifier = Modifier
-                        .height(60.dp)
+                    value = regEmail.value, onValueChange = {regEmail.value=it}, modifier = Modifier
                         .fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Email", color = Color.White) },
                     trailingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = "", tint = Color.White) }
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
-                    value = "", onValueChange = {}, modifier = Modifier
-                        .height(60.dp)
+                    value = regPassword.value, onValueChange = {regPassword.value=it}, modifier = Modifier
                         .fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Password", color = Color.White) },
                     trailingIcon = { Icon(imageVector = Icons.Outlined.Lock, contentDescription = "", tint = Color.White) }
                 )
@@ -82,7 +87,7 @@ fun SignUpScreen(navController: NavController) {
                         modifier = Modifier.padding(horizontal = 6.dp),
                         style = TextStyle(color = LightBlue, fontSize = 14.5.sp),
                         onClick = {
-                        navController.navigate("loginScreen")
+                        navController.popBackStack()
                         })
                 }
                 Spacer(modifier = Modifier.padding(5.dp))

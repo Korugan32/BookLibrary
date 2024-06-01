@@ -1,4 +1,4 @@
-package com.korugan.booklibrary.presentation.screens
+package com.korugan.booklibrary.presentation.screens.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
@@ -27,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -39,10 +38,13 @@ import com.korugan.booklibrary.presentation.theme.LightBlue
 import com.korugan.booklibrary.presentation.theme.Purple
 
 @Composable
-fun SignUpScreen(navController: NavController) {
-    val regUsername = remember {mutableStateOf("")}
-    val regEmail = remember {mutableStateOf("")}
-    val regPassword = remember {mutableStateOf("")}
+fun LoginScreen(navController: NavController) {
+    val username = remember {
+        mutableStateOf("")
+    }
+    val password = remember {
+        mutableStateOf("")
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,9 +57,9 @@ fun SignUpScreen(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column {
-                Text(text = "Sign Up", style = TextStyle(color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.W500))
+                Text(text = "Login", style = TextStyle(color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.W500))
                 OutlinedTextField(
-                    value = regUsername.value, onValueChange = {regUsername.value=it}, modifier = Modifier
+                    value = username.value, onValueChange = { username.value = it }, modifier = Modifier
                         .fillMaxWidth(),
                     textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Username", color = Color.White) },
@@ -65,29 +67,29 @@ fun SignUpScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
-                    value = regEmail.value, onValueChange = {regEmail.value=it}, modifier = Modifier
-                        .fillMaxWidth(),
-                    textStyle = TextStyle(color = Color.White),
-                    label = { Text(text = "Email", color = Color.White) },
-                    trailingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = "", tint = Color.White) }
-                )
-                Spacer(modifier = Modifier.padding(5.dp))
-                OutlinedTextField(
-                    value = regPassword.value, onValueChange = {regPassword.value=it}, modifier = Modifier
+                    value = password.value, onValueChange = { password.value = it }, modifier = Modifier
                         .fillMaxWidth(),
                     textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Password", color = Color.White) },
                     trailingIcon = { Icon(imageVector = Icons.Outlined.Lock, contentDescription = "", tint = Color.White) }
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
+                ClickableText(
+                    text = AnnotatedString("Forget Password?"),
+                    style = TextStyle(color = LightBlue),
+                    modifier = Modifier.align(Alignment.End),
+                    onClick = {
+                        navController.navigate("forgetPasswordScreen")
+                    })
+                Spacer(modifier = Modifier.padding(5.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Text(text = "Already Have An Account", fontSize = 13.sp, color = Color.White)
+                    Text(text = "Don't Have An Account", fontSize = 13.sp, color = Color.White)
                     ClickableText(
-                        text = AnnotatedString("Sign In"),
+                        text = AnnotatedString("Sign Up"),
                         modifier = Modifier.padding(horizontal = 6.dp),
                         style = TextStyle(color = LightBlue, fontSize = 14.5.sp),
                         onClick = {
-                        navController.popBackStack()
+                            navController.navigate("signUpScreen")
                         })
                 }
                 Spacer(modifier = Modifier.padding(5.dp))
@@ -98,9 +100,13 @@ fun SignUpScreen(navController: NavController) {
                         .align(alignment = Alignment.CenterHorizontally),
                     colors = ButtonDefaults.buttonColors(containerColor = Blue),
                 ) {
-                    Text(text = "Sign Up")
+                    Text(text = "Sign In")
                 }
             }
         }
+
     }
 }
+
+@Composable
+fun screenWidth(): Int = LocalConfiguration.current.screenWidthDp

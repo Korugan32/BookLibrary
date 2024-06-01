@@ -1,4 +1,4 @@
-package com.korugan.booklibrary.presentation.screens
+package com.korugan.booklibrary.presentation.screens.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

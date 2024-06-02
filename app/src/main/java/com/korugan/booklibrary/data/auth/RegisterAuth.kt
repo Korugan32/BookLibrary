@@ -1,4 +1,4 @@
-package com.korugan.booklibrary.data
+package com.korugan.booklibrary.data.auth
 
 import android.widget.Toast
 import androidx.navigation.NavController

@@ -1,6 +1,5 @@
-package com.korugan.booklibrary.data
+package com.korugan.booklibrary.data.auth
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.widget.Toast
 import androidx.navigation.NavController
 import com.google.firebase.Firebase

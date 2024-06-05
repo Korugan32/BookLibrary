@@ -19,7 +19,7 @@ fun Book(book: BookData,navController: NavController) {
             Image(painter = rememberAsyncImagePainter(model = book.thumbnail), contentDescription = "", modifier = Modifier
                 .height(140.dp)
                 .width(130.dp).clickable {
-                navController.navigate("mainBookInfo" + "?bookTitle=${book.title}&bookAuthor=${book.author}&bookImage=${book.thumbnail}")
+                navController.navigate("mainBookInfo" + "?bookTitle=${book.title}&bookAuthor=${book.author}&bookImage=${book.thumbnail}&bookId=${book.bookId}")
                 })
         }
 }

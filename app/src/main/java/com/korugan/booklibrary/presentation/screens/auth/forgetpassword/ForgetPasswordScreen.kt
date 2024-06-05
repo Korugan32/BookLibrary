@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavHostController
+import com.korugan.booklibrary.data.auth.resetPassword
 import com.korugan.booklibrary.presentation.screens.auth.screenWidth
 import com.korugan.booklibrary.presentation.theme.Blue
 import com.korugan.booklibrary.presentation.theme.Purple
@@ -50,7 +51,7 @@ fun FPasswordScreen(navController: NavHostController) {
         ) {
             Column {
                 Text(text = "Forget Password", style = TextStyle(color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.W500))
-                Text(text = "Enter your email for verification process we will send 4 digits code to your mail", color = Color.White)
+                Text(text = "Enter your email for verification process we will send reset link to your mail", color = Color.White)
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
                     value = email.value, onValueChange = { email.value = it }, modifier = Modifier
@@ -61,13 +62,16 @@ fun FPasswordScreen(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 Button(
-                    onClick = { navController.navigate("passwordCodeVerification") },
+                    onClick = {
+                        resetPassword(email)
+                        navController.navigate("passwordCodeVerification")
+                              },
                     modifier = Modifier
                         .width(screenWidth() * 0.56.dp)
                         .align(alignment = Alignment.CenterHorizontally),
                     colors = ButtonDefaults.buttonColors(containerColor = Blue),
                 ) {
-                    Text(text = "Send Code")
+                    Text(text = "Send to Email")
                 }
             }
         }

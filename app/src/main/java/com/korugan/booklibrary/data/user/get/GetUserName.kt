@@ -1,10 +1,9 @@
 package com.korugan.booklibrary.data.user.get
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-fun getUsername(callback: (String?) -> Unit) {
-    val userId = FirebaseAuth.getInstance().currentUser?.uid
+fun getUsername(userId:String, callback: (String?) -> Unit) {
+
     if (userId == null) {
         callback(null)
         return

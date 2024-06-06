@@ -1,11 +1,8 @@
 package com.korugan.booklibrary.data.user.get
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-fun getUserFavorites(callback: (List<String>) -> Unit) {
-    val userId = FirebaseAuth.getInstance().currentUser?.uid
-
+fun getUserFavorites(userId:String,callback: (List<String>) -> Unit) {
     val userData = FirebaseFirestore.getInstance()
     val userCollection = userData.collection("users").document(userId!!).collection("favorites")
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "913113589058",
+    "project_id": "booklibrary-aadd7",
+    "storage_bucket": "booklibrary-aadd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913113589058:android:4b07bf47d9ef44b38fd4db",
+        "android_client_info": {
+          "package_name": "com.korugan.booklibrary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh7TRW_skOpAwlK5nAjVi4WmZBP9chNIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

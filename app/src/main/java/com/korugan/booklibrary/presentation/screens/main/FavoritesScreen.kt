@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 import com.korugan.booklibrary.data.user.get.getUserFavorites
 import com.korugan.booklibrary.presentation.components.Book
 import com.korugan.booklibrary.presentation.components.BottomBar
@@ -33,7 +34,7 @@ fun FavoriteScreen(navController: NavHostController) {
     val isLoading = remember { mutableStateOf(true) }
     val isEmpty = remember { mutableStateOf(false) }
 
-    getUserFavorites { bookIds ->
+    getUserFavorites(FirebaseAuth.getInstance().currentUser!!.uid) { bookIds ->
         if (bookIds.isEmpty()){
             isEmpty.value = true
         }
@@ -58,7 +59,7 @@ fun FavoriteScreen(navController: NavHostController) {
             .statusBarsPadding(),
     ) {
         Scaffold(
-            topBar = { Header() },
+            topBar = { Header(FirebaseAuth.getInstance().currentUser!!.uid,navController) },
             containerColor = DefaultTintColor,
             bottomBar = { BottomBar( navController) },
             floatingActionButton = {

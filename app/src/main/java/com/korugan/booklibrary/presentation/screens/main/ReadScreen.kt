@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 import com.korugan.booklibrary.data.user.get.getUserRead
 import com.korugan.booklibrary.presentation.components.Book
 import com.korugan.booklibrary.presentation.components.BottomBar
@@ -71,7 +72,7 @@ fun ReadScreen(navController: NavHostController){
             .statusBarsPadding(),
     ) {
         Scaffold(
-            topBar = { Header() },
+            topBar = { Header(FirebaseAuth.getInstance().currentUser!!.uid,navController) },
             containerColor = DefaultTintColor,
             bottomBar = { BottomBar( navController) },
             floatingActionButton = {

@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,7 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.korugan.booklibrary.data.user.control.favoriteControl
 import com.korugan.booklibrary.data.user.control.readControl
@@ -44,13 +45,12 @@ import com.korugan.booklibrary.data.user.control.readingControl
 import com.korugan.booklibrary.data.user.set.setUserFavorites
 import com.korugan.booklibrary.data.user.set.setUserRead
 import com.korugan.booklibrary.data.user.set.setUserReading
-import com.korugan.booklibrary.presentation.components.Header
 import com.korugan.booklibrary.presentation.theme.Blue
 import com.korugan.booklibrary.presentation.theme.Purple
 
 @Composable
 fun BookInfoScreen(
-    navController: NavController,
+    navController: NavHostController,
     bookTitle: String,
     bookAuthor: String,
     bookImage: String,
@@ -114,7 +114,7 @@ fun BookInfoScreen(
                 .statusBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Header()
+            Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "", tint = Color.White, modifier = Modifier.size(40.dp).align(Alignment.Start).clickable { navController.popBackStack() })
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

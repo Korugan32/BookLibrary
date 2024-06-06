@@ -10,7 +10,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 fun getBook(bookId: String, callback: (BookData?) -> Unit) {
-    val apiKey= "AIzaSyAsqjPmhqPYCo8Ag078unuSItFN-KHnBgM"
+    val apiKey= "AIzaSyCPEw7x0b8NibA-b29X920mYvdTtvhS1PQ"
     CoroutineScope(Dispatchers.IO).launch {
         val urlString = "https://www.googleapis.com/books/v1/volumes/$bookId?key=$apiKey"
         val url = URL(urlString)

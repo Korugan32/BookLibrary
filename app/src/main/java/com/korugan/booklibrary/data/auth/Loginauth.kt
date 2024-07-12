@@ -18,9 +18,9 @@ fun loginAuth(email: String, password: String,navController: NavController) {
     }
 }
 fun haveCurrentUser(): String {
-    if (Firebase.auth.currentUser != null){
-        return "mainFavorites"
+    return if (Firebase.auth.currentUser != null){
+        "mainFavorites"
     }else{
-        return "loginScreen"
+        "loginScreen"
     }
 }

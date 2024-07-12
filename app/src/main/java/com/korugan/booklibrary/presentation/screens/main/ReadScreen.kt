@@ -29,12 +29,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.korugan.booklibrary.data.user.get.getUserRead
 import com.korugan.booklibrary.presentation.components.Book
 import com.korugan.booklibrary.presentation.components.BottomBar
 import com.korugan.booklibrary.presentation.components.Header
+import com.korugan.booklibrary.presentation.screens.auth.screenWidth
 import com.korugan.booklibrary.presentation.theme.Blue
 import com.korugan.booklibrary.presentation.theme.Purple
 import com.korugan.booklibrary.presentation.theme.Purple40
@@ -98,7 +100,7 @@ fun ReadScreen(navController: NavHostController){
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(imageVector = Icons.Filled.NotInterested, contentDescription = "", tint = Color.Gray, modifier = Modifier.size(200.dp))
-                    Text(text = "No Read Books Found", color = Color.LightGray, fontSize = 40.sp)
+                    Text(text = "No Read Books Found", color = Color.LightGray, fontSize = screenWidth() *0.08.sp)
                 }
             }else {
                 if (isLoading.value) {

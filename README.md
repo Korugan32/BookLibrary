@@ -42,11 +42,11 @@ BookLibrary is an Android application that allows users to manage their favorite
 ## Contributions
 Contributions are welcome! Please open an issue or submit a pull request for any changes or enhancements.
 
-
-
-
 ## Library
 - Firebase
 - Coil
 - Navigation 
 - Material Icons
+
+## Video
+https://github.com/user-attachments/assets/3120f46b-22d4-4ccc-b842-15c427f75c26

@@ -2,8 +2,8 @@ package com.korugan.booklibrary.presentation.screens.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.NotInterested
@@ -36,19 +36,21 @@ fun FavoriteScreen(navController: NavHostController) {
     val isLoading = remember { mutableStateOf(true) }
     val isEmpty = remember { mutableStateOf(false) }
 
-    getUserFavorites(FirebaseAuth.getInstance().currentUser!!.uid) { bookIds ->
-        if (bookIds.isEmpty()){
-            isEmpty.value = true
-        }
-        val bookList = mutableListOf<BookData>()
-        bookIds.forEach { id ->
-            getBook(id) { book ->
-                book?.let {
-                    bookList.add(it)
-                    books.value = bookList.sortedBy { book -> book.title }
-                }
-                if (bookList.size==bookIds.size){
-                    isLoading.value = false
+    LaunchedEffect(Unit) {
+        getUserFavorites(FirebaseAuth.getInstance().currentUser!!.uid) { bookIds ->
+            if (bookIds.isEmpty()){
+                isEmpty.value = true
+            }
+            val bookList = mutableListOf<BookData>()
+            bookIds.forEach { id ->
+                getBook(id) { book ->
+                    book?.let {
+                        bookList.add(it)
+                        books.value = bookList.sortedBy { book -> book.title }
+                    }
+                    if (bookList.size==bookIds.size){
+                        isLoading.value = false
+                    }
                 }
             }
         }
@@ -101,21 +103,15 @@ fun FavoriteScreen(navController: NavHostController) {
                         CircularProgressIndicator()
                     }
                 } else {
-                    LazyColumn(
+                    LazyVerticalGrid(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
-                            .padding(paddingValues)
+                          .fillMaxSize()
+                          .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
+                          .padding(paddingValues),
+                        columns = GridCells.Fixed(3)
                     ) {
-                        items(books.value.chunked(3)) { book ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                book.forEach { book ->
-                                    Book(book, navController)
-                                }
-                            }
+                        items(books.value.size){
+                            Book(books.value[it],navController)
                         }
                     }
                 }

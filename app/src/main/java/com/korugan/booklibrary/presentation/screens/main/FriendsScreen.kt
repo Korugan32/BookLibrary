@@ -63,30 +63,31 @@ fun FriendsScreen(navController: NavHostController) {
             .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
             .statusBarsPadding(),
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(screenWidth() * 0.16.dp)
-                .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Row {
-                Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "", tint = Color.White, modifier = Modifier
-                    .size(35.dp)
-                    .clickable { navController.popBackStack() })
-                Spacer(modifier = Modifier.padding(5.dp))
-                Icon(imageVector = Icons.Outlined.PeopleOutline, contentDescription = "", tint = Color.White, modifier = Modifier.size(35.dp))
-                Spacer(modifier = Modifier.padding(5.dp))
-                Text(
-                    text = "Friends",
-                    color = Color.White,
-                    fontSize = screenWidth() * 0.06.sp,
-                    fontWeight = FontWeight.W500,
-                )
-            }
-        }
         Scaffold(
             containerColor = DefaultTintColor,
+            topBar = {
+                Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(screenWidth() * 0.16.dp)
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row {
+                    Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "", tint = Color.White, modifier = Modifier
+                        .size(35.dp)
+                        .clickable { navController.popBackStack() })
+                    Spacer(modifier = Modifier.padding(5.dp))
+                    Icon(imageVector = Icons.Outlined.PeopleOutline, contentDescription = "", tint = Color.White, modifier = Modifier.size(35.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
+                    Text(
+                        text = "Friends",
+                        color = Color.White,
+                        fontSize = screenWidth() * 0.06.sp,
+                        fontWeight = FontWeight.W500,
+                    )
+                }
+            }},
             floatingActionButton = {
                 FloatingActionButton(
                     modifier = Modifier.size(60.dp),
@@ -104,7 +105,6 @@ fun FriendsScreen(navController: NavHostController) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
                     .padding(paddingValues)
             ) {
                 items(friendsData) { friend ->

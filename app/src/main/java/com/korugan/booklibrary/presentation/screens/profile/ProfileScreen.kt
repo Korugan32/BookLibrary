@@ -13,7 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NotInterested
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -22,6 +23,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -60,32 +62,34 @@ fun ProfileScreen(
     val isLoading = remember { mutableStateOf(true) }
     val isEmpty = remember { mutableStateOf(false) }
 
-    if (selected.intValue == 0) {
-        getUserFavorites(userId) { bookIds ->
-            if (bookIds.isEmpty()) {
-                isEmpty.value = true
-            }
-            val bookList = mutableListOf<BookData>()
-            bookIds.forEach { id ->
-                getBook(id) { book ->
-                    book?.let {
-                        bookList.add(it)
-                        books.value = bookList.sortedBy { book -> book.title }
-                    }
-                    if (bookList.size == bookIds.size) {
-                        isLoading.value = false
+    LaunchedEffect(key1 = selected.value) {
+        if (selected.intValue == 0) {
+            getUserFavorites(userId) { bookIds ->
+                if (bookIds.isEmpty()) {
+                    isEmpty.value = true
+                }
+                val bookList = mutableListOf<BookData>()
+                bookIds.forEach { id ->
+                    getBook(id) { book ->
+                        book?.let {
+                            bookList.add(it)
+                            books.value = bookList.sortedBy { book -> book.title }
+                        }
+                        if (bookList.size == bookIds.size) {
+                            isLoading.value = false
+                        }
                     }
                 }
             }
-        }
-    } else {
-        getFriends(FirebaseAuth.getInstance().currentUser!!.uid) { friends ->
-            friendsList.clear()
-            friendsList.addAll(friends)
-            friendsData.clear()
-            friends.forEach { friendId ->
-                getUserData(friendId) { user ->
-                    friendsData.add(user)
+        } else {
+            getFriends(FirebaseAuth.getInstance().currentUser!!.uid) { friends ->
+                friendsList.clear()
+                friendsList.addAll(friends)
+                friendsData.clear()
+                friends.forEach { friendId ->
+                    getUserData(friendId) { user ->
+                        friendsData.add(user)
+                    }
                 }
             }
         }
@@ -155,26 +159,23 @@ fun ProfileScreen(
                     CircularProgressIndicator()
                 }
             } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
-                        .padding()
-                ) {
-                    if (selected.value == 0) {
-                        items(books.value.chunked(3)) { book ->
+                if (selected.value == 0) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3)
+                    ) {
+                        items(books.value.size) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                book.forEach { book ->
-                                    Book(book, navController)
-                                }
+                                Book(books.value[it], navController)
                             }
                         }
-                    } else {
-                        items(friendsData) { friend ->
-                            User(friend, navController)
+                    }
+                } else {
+                    LazyColumn {
+                        items(friendsData.size) {
+                            User(friendsData[it], navController)
                         }
                     }
                 }

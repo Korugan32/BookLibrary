@@ -3,14 +3,12 @@ package com.korugan.booklibrary.presentation.screens.main
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.NotInterested
@@ -20,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,19 +48,21 @@ fun ReadScreen(navController: NavHostController){
     val isLoading = remember { mutableStateOf(true) }
     val isEmpty = remember { mutableStateOf(false) }
 
-    getUserRead { bookIds ->
-        if (bookIds.isEmpty()){
-            isEmpty.value = true
-        }
-        val bookList = mutableListOf<BookData>()
-        bookIds.forEach { id ->
-            getBook(id) { book ->
-                book?.let {
-                    bookList.add(it)
-                    books.value = bookList.sortedBy { book -> book.title }
-                }
-                if (bookList.size==bookIds.size){
-                    isLoading.value = false
+    LaunchedEffect(Unit) {
+        getUserRead { bookIds ->
+            if (bookIds.isEmpty()){
+                isEmpty.value = true
+            }
+            val bookList = mutableListOf<BookData>()
+            bookIds.forEach { id ->
+                getBook(id) { book ->
+                    book?.let {
+                        bookList.add(it)
+                        books.value = bookList.sortedBy { book -> book.title }
+                    }
+                    if (bookList.size==bookIds.size){
+                        isLoading.value = false
+                    }
                 }
             }
         }
@@ -114,21 +115,15 @@ fun ReadScreen(navController: NavHostController){
                         CircularProgressIndicator()
                     }
                 } else {
-                    LazyColumn(
+                    LazyVerticalGrid(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
-                            .padding(paddingValues)
+                            .padding(paddingValues),
+                        columns = GridCells.Fixed(3)
                     ) {
-                        items(books.value.chunked(3)) { book ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                book.forEach { book ->
-                                    Book(book, navController)
-                                }
-                            }
+                        items(books.value.size){
+                            Book(books.value[it],navController)
                         }
                     }
                 }

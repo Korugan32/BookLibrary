@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,9 +39,13 @@ fun UserProfileScreen(navController: NavHostController) {
     val userName = remember {
         mutableStateOf("")
     }
-    getUsername(FirebaseAuth.getInstance().currentUser!!.uid) { username ->
-        userName.value = username!!
+
+    LaunchedEffect(Unit) {
+        getUsername(FirebaseAuth.getInstance().currentUser!!.uid) { username ->
+            userName.value = username!!
+        }
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

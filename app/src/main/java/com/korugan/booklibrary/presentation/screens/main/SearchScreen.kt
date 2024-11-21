@@ -3,11 +3,10 @@ package com.korugan.booklibrary.presentation.screens.main
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -32,6 +31,13 @@ fun SearchScreen(navController: NavHostController) {
     val books = remember { mutableStateOf<List<BookData>>(emptyList()) }
     val isLoading = remember { mutableStateOf(false) }
 
+    LaunchedEffect(key1 = query.value) {
+        apiConnection(query.value) { bookList ->
+            books.value = bookList
+            isLoading.value = false
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,8 +45,9 @@ fun SearchScreen(navController: NavHostController) {
             .statusBarsPadding(),
     ) {
         Row(
-            Modifier.padding(vertical = 25.dp),
+            Modifier.fillMaxWidth().height(80.dp),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack, contentDescription = "", tint = Color.White,
@@ -50,27 +57,13 @@ fun SearchScreen(navController: NavHostController) {
                         navController.popBackStack()
                     },
             )
-            Spacer(modifier = Modifier.padding(5.dp))
             OutlinedTextField(
-                value = query.value, onValueChange = { query.value = it },
+                value = query.value, onValueChange = { query.value = it; isLoading.value = true },
                 modifier = Modifier
                     .width(360.dp),
                 textStyle = TextStyle(color = Color.White),
                 maxLines = 1,
                 label = { Text(text = "Search", color = Color.White) },
-            )
-            Spacer(modifier = Modifier.padding(5.dp))
-            Icon(
-                imageVector = Icons.Filled.Search, contentDescription = "", tint = Color.White,
-                modifier = Modifier
-                    .size(30.dp)
-                    .clickable {
-                        isLoading.value = true
-                        apiConnection(query.value) { bookList ->
-                            books.value = bookList
-                            isLoading.value = false
-                        }
-                    },
             )
         }
         if (isLoading.value) {
@@ -83,19 +76,14 @@ fun SearchScreen(navController: NavHostController) {
                 CircularProgressIndicator()
             }
         } else {
-            LazyColumn(
+            LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple)))
+                    .background(brush = Brush.verticalGradient(colors = listOf(Blue, Purple))),
+                columns = GridCells.Fixed(3)
             ) {
-                items(books.value.chunked(3)) { chunkedBooks ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        chunkedBooks.forEach { book ->
-                            Book(book, navController)
-                        }
-                    }
+                items(books.value.size) {
+                    Book(books.value[it], navController)
                 }
             }
         }

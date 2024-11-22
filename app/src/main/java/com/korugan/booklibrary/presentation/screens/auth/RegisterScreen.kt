@@ -40,9 +40,9 @@ import com.korugan.booklibrary.presentation.theme.Purple
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-    val regUsername = remember {mutableStateOf("")}
-    val regEmail = remember {mutableStateOf("")}
-    val regPassword = remember {mutableStateOf("")}
+    val regUsername = remember { mutableStateOf("") }
+    val regEmail = remember { mutableStateOf("") }
+    val regPassword = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +57,7 @@ fun SignUpScreen(navController: NavController) {
             Column {
                 Text(text = "Sign Up", style = TextStyle(color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.W500))
                 OutlinedTextField(
-                    value = regUsername.value, onValueChange = {regUsername.value=it}, modifier = Modifier
+                    value = regUsername.value, onValueChange = { regUsername.value = it }, modifier = Modifier
                         .fillMaxWidth(),
                     textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Username", color = Color.White) },
@@ -65,7 +65,7 @@ fun SignUpScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
-                    value = regEmail.value, onValueChange = {regEmail.value=it}, modifier = Modifier
+                    value = regEmail.value, onValueChange = { regEmail.value = it }, modifier = Modifier
                         .fillMaxWidth(),
                     textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Email", color = Color.White) },
@@ -73,7 +73,7 @@ fun SignUpScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 OutlinedTextField(
-                    value = regPassword.value, onValueChange = {regPassword.value=it}, modifier = Modifier
+                    value = regPassword.value, onValueChange = { regPassword.value = it }, modifier = Modifier
                         .fillMaxWidth(),
                     textStyle = TextStyle(color = Color.White),
                     label = { Text(text = "Password", color = Color.White) },
@@ -87,7 +87,7 @@ fun SignUpScreen(navController: NavController) {
                         modifier = Modifier.padding(horizontal = 6.dp),
                         style = TextStyle(color = LightBlue, fontSize = 14.5.sp),
                         onClick = {
-                        navController.popBackStack()
+                            navController.popBackStack()
                         })
                 }
                 Spacer(modifier = Modifier.padding(5.dp))
